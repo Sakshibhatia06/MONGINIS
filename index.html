@@ -28,18 +28,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 5%;
+      padding: 10px 5%;
       background-color: #ffffff;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       position: sticky;
       top: 0;
       z-index: 1000;
     }
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-      color: #e91e63;
-      letter-spacing: -1px;
+    .logo img {
+      height: 50px;
+      width: auto;
+      display: block;
     }
     .nav-links {
       display: flex;
@@ -71,67 +70,139 @@
     /* 2. HERO SLIDER SECTION */
     .hero-slider {
       position: relative;
-      background: linear-gradient(135deg, #2a0845 0%, #6441a5 100%);
-      color: #fff;
-      padding: 80px 5%;
-      min-height: 480px;
+      height: 520px;
+      overflow: hidden;
+      background-color: #1a0628;
+    }
+    
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+      background-size: cover;
+      background-position: center;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      overflow: hidden;
+      padding: 0 8%;
     }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Gradient overlay to make text readable over images */
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(20, 5, 35, 0.85) 0%, rgba(20, 5, 35, 0.4) 60%, rgba(0, 0, 0, 0.1) 100%);
+      z-index: 1;
+    }
+
+    .slide-1 {
+      background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1600&auto=format&fit=crop');
+    }
+    .slide-2 {
+      background-image: url('https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=1600&auto=format&fit=crop');
+    }
+    .slide-3 {
+      background-image: url('https://images.unsplash.com/photo-1550617931-e17a7b70dce2?q=80&w=1600&auto=format&fit=crop');
+    }
+
     .hero-content {
-      max-width: 500px;
+      max-width: 580px;
       z-index: 2;
+      color: #fff;
     }
     .hero-subtitle {
       text-transform: uppercase;
       font-size: 13px;
+      font-weight: 700;
       letter-spacing: 2px;
       color: #ff80ab;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .hero-title {
       font-size: 42px;
       line-height: 1.2;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .hero-desc {
-      font-size: 18px;
+      font-size: 17px;
       opacity: 0.9;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
+      line-height: 1.5;
     }
     .btn-know-more {
       display: inline-block;
-      background-color: #8e24aa;
+      background-color: #e91e63;
       color: #fff;
-      padding: 12px 30px;
+      padding: 12px 32px;
       border-radius: 25px;
       font-weight: 700;
       letter-spacing: 1px;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
     }
     .btn-know-more:hover {
-      background-color: #7b1fa2;
+      background-color: #c2185b;
+      transform: translateY(-2px);
     }
+
+    /* Slider Controls */
     .slider-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255,255,255,0.9);
-      color: #333;
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #1a0628;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       z-index: 10;
+      transition: background 0.3s, color 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .arrow-left { left: 20px; }
-    .arrow-right { right: 20px; }
+    .slider-arrow:hover {
+      background: #e91e63;
+      color: #fff;
+    }
+    .arrow-left { left: 25px; }
+    .arrow-right { right: 25px; }
+
+    /* Slider Dots */
+    .slider-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: background 0.3s, width 0.3s;
+    }
+    .dot.active {
+      background: #e91e63;
+      width: 28px;
+      border-radius: 10px;
+    }
 
     /* 3. ENQUIRY BANNER HEADER */
     .enquiry-header {
@@ -386,6 +457,9 @@
       .nav-links { display: none; }
       .form-row { flex-direction: column; gap: 0; }
       .hero-title { font-size: 30px; }
+      .hero-slider { height: 440px; }
+      .arrow-left { left: 10px; }
+      .arrow-right { right: 10px; }
     }
   </style>
 </head>
@@ -393,7 +467,11 @@
 
   <!-- NAVBAR SECTION -->
   <nav class="navbar">
-    <div class="logo">monginis</div>
+    <div class="logo">
+      <a href="#home">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHgKlQjxavIDzQQo5uxkQJcnT2ATv8uFeJKqr8V947dA&s" alt="Monginis Logo" />
+      </a>
+    </div>
     <ul class="nav-links">
       <li><a href="#home">Home</a></li>
       <li><a href="#cost">Cost</a></li>
@@ -405,16 +483,48 @@
     </ul>
   </nav>
 
-  <!-- HERO SLIDER SECTION -->
+  <!-- HERO SLIDER SECTION (3 SLIDES) -->
   <section class="hero-slider" id="home">
-    <div class="slider-arrow arrow-left"><i class="fas fa-chevron-left"></i></div>
-    <div class="hero-content">
-      <div class="hero-subtitle">VELVET BLOOM CAKE</div>
-      <h1 class="hero-title">Introducing the<br/>Platinum Premium Cakes</h1>
-      <p class="hero-desc">Crafted for celebrations that deserve nothing but the finest.</p>
-      <a href="#about" class="btn-know-more">KNOW MORE</a>
+    <div class="slider-arrow arrow-left" id="prevSlide"><i class="fas fa-chevron-left"></i></div>
+    
+    <!-- Slide 1 -->
+    <div class="slide slide-1 active">
+      <div class="hero-content">
+        <div class="hero-subtitle">VELVET BLOOM CAKE</div>
+        <h1 class="hero-title">Introducing the<br/>Platinum Premium Cakes</h1>
+        <p class="hero-desc">Crafted for celebrations that deserve nothing but the finest quality and taste.</p>
+        <a href="#about" class="btn-know-more">KNOW MORE</a>
+      </div>
     </div>
-    <div class="slider-arrow arrow-right"><i class="fas fa-chevron-right"></i></div>
+
+    <!-- Slide 2 -->
+    <div class="slide slide-2">
+      <div class="hero-content">
+        <div class="hero-subtitle">CELEBRATE EVERY MOMENT</div>
+        <h1 class="hero-title">Fresh Baked Goodness<br/>Delivered Daily</h1>
+        <p class="hero-desc">Join India's most trusted bakery brand with over 1000+ successful outlets.</p>
+        <a href="#enquiry-form" class="btn-know-more">BECOME A PARTNER</a>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide slide-3">
+      <div class="hero-content">
+        <div class="hero-subtitle">FRANCHISE OPPORTUNITY</div>
+        <h1 class="hero-title">High ROI & Operations<br/>Support Guaranteed</h1>
+        <p class="hero-desc">Turn your business dream into reality with full marketing and supply chain assistance.</p>
+        <a href="#enquiry-form" class="btn-know-more">APPLY NOW</a>
+      </div>
+    </div>
+
+    <div class="slider-arrow arrow-right" id="nextSlide"><i class="fas fa-chevron-right"></i></div>
+
+    <!-- Slide Indicators -->
+    <div class="slider-dots">
+      <div class="dot active" data-slide="0"></div>
+      <div class="dot" data-slide="1"></div>
+      <div class="dot" data-slide="2"></div>
+    </div>
   </section>
 
   <!-- ENQUIRY BANNER -->
@@ -509,7 +619,9 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-col">
-        <div class="logo" style="margin-bottom: 15px;">monginis</div>
+        <div class="logo" style="margin-bottom: 15px;">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHgKlQjxavIDzQQo5uxkQJcnT2ATv8uFeJKqr8V947dA&s" alt="Monginis Logo" style="height: 40px;" />
+        </div>
         <p style="font-size: 14px; color: #bbb;">Connect with us</p>
         <div class="social-icons">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -545,22 +657,76 @@
     </div>
   </footer>
 
-  <!-- AJAX JAVASCRIPT SUBMISSION -->
+  <!-- JAVASCRIPT: SLIDER & AJAX FORM SUBMISSION -->
   <script>
+    /* HERO SLIDER FUNCTIONALITY */
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    let currentSlide = 0;
+    let slideInterval;
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      currentSlide = (index + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      dots[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      showSlide(currentSlide - 1);
+    }
+
+    // Navigation Click Events
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      resetInterval();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      resetInterval();
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        const slideIndex = parseInt(e.target.getAttribute('data-slide'));
+        showSlide(slideIndex);
+        resetInterval();
+      });
+    });
+
+    // Auto Play Slider (5 seconds)
+    function startInterval() {
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    function resetInterval() {
+      clearInterval(slideInterval);
+      startInterval();
+    }
+
+    startInterval();
+
+    /* AJAX FORM SUBMISSION */
     document.getElementById('franchiseForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent default page refresh
+      e.preventDefault();
 
       const submitBtn = document.getElementById('submitBtn');
       const responseMsg = document.getElementById('responseMessage');
       
-      // Change button state
       submitBtn.disabled = true;
       submitBtn.innerText = 'Sending...';
 
-      // Prepare form data
       const formData = new FormData(this);
 
-      // Perform AJAX Request using Fetch API
       fetch('send_mail.php', {
         method: 'POST',
         body: formData
